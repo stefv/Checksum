@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "md5sum", "md5sum\md5sum.csproj", "{0E0E1385-3452-493C-86C4-99884721D3F3}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{5E7D9308-549A-4614-A100-A138BE6D4428}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6988FC70-7711-44D6-AEC0-627A0444A307}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{0e0e1385-3452-493c-86c4-99884721d3f3}*SharedItemsImports = 4
+		Shared\Shared.projitems*{5e7d9308-549a-4614-a100-a138be6d4428}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
