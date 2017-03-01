@@ -18,14 +18,20 @@ Global
 		Shared\Shared.projitems*{5e7d9308-549a-4614-a100-a138be6d4428}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|x64.ActiveCfg = Debug|x64
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|x64.Build.0 = Debug|x64
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|x86.ActiveCfg = Debug|x86
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Debug|x86.Build.0 = Debug|x86
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|x64.ActiveCfg = Release|x64
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|x64.Build.0 = Release|x64
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|x86.ActiveCfg = Release|x86
+		{0E0E1385-3452-493C-86C4-99884721D3F3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
