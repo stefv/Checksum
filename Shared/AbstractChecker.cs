@@ -57,6 +57,11 @@ namespace Shared
         /// True to create a BSD checksum style.
         /// </summary>
         private bool tag = false;
+
+        /// <summary>
+        /// true if the check has errors.
+        /// </summary>
+        private bool hasCheckingErrors = false;
         #endregion
 
         #region Constructors
@@ -99,16 +104,12 @@ namespace Shared
                     ConsoleHelper.LogError(filename + ": " + e.Message);
                     continue;
                 }
-                if (file.Exists)
-                {
-                    if (!check) Generate(file);
-                    else Check(file);
-                }
-                else
-                {
-                    ConsoleHelper.LogError(Resources.err_file_dir_not_found, filename);
-                }
+                if (!check) Generate(file);
+                else Check(file);
             }
+
+            // Return the result
+            Environment.Exit((check && hasCheckingErrors) ? 1 : 0);
         }
 
         /// <summary>
@@ -117,31 +118,62 @@ namespace Shared
         /// <param name="file">The source file.</param>
         private void Check(FileInfo file)
         {
+            int errors = 0;
+
             using (StreamReader stream = file.OpenText())
             {
                 string line = stream.ReadLine();
                 while (line != null)
                 {
                     string filename;
-                    string hash;
+                    string originalHash;
                     if (IsTag(line))
                     {
                         Match match = Regex.Match(line, "^" + algorithm + " \\((.+)\\) = ([a-zA-Z0-9]+)$");
                         filename = match.Groups[1].Value;
-                        hash = match.Groups[2].Value;
+                        originalHash = match.Groups[2].Value;
                     }
                     else
                     {
                         Match match = Regex.Match(line, "^([a-zA-Z0-9]+)  (.+)$");
-                        hash = match.Groups[1].Value;
+                        originalHash = match.Groups[1].Value;
                         filename = match.Groups[2].Value;
                     }
 
-                    Console.WriteLine(hash + " ==> " + filename);
+                    FileInfo fileToCheck = new FileInfo(filename);
+                    if (fileToCheck.Exists)
+                    {
+                        try
+                        {
+                            using (FileStream streamFile = File.OpenRead(filename))
+                            {
+                                string newHash = ToHex(ComputeHash(streamFile), false);
+                                if (newHash == originalHash.ToLower()) Console.WriteLine(filename + ": OK");
+                                else
+                                {
+                                    Console.Error.WriteLine(filename + ": FAILED");
+                                    errors++;
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ConsoleHelper.LogError(filename + ": " + e.Message);
+                        }
+
+                    }
+                    else
+                    {
+                        ConsoleHelper.LogError(Resources.err_file_dir_not_found, filename);
+                    }
 
                     line = stream.ReadLine();
                 }
             }
+
+            if (errors == 1) ConsoleHelper.LogError(errors + " somme de contrôle ne correspond pas.");
+            else if (errors > 1) ConsoleHelper.LogError(errors + " sommes de contrôle ne correspondent pas.");
+            if (!hasCheckingErrors && errors > 0) hasCheckingErrors = true;
         }
 
         /// <summary>
@@ -161,6 +193,11 @@ namespace Shared
         /// <param name="file">The source fill to generate the hash.</param>
         private void Generate(FileInfo file)
         {
+            if (!file.Exists)
+            {
+                ConsoleHelper.LogError(Resources.err_file_dir_not_found, file.FullName);
+                return;
+            }
             try
             {
                 using (FileStream stream = File.OpenRead(file.FullName))
