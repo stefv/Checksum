@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Shared
 {
@@ -121,9 +122,37 @@ namespace Shared
                 string line = stream.ReadLine();
                 while (line != null)
                 {
+                    string filename;
+                    string hash;
+                    if (IsTag(line))
+                    {
+                        Match match = Regex.Match(line, "^" + algorithm + " \\((.+)\\) = ([a-zA-Z0-9]+)$");
+                        filename = match.Groups[1].Value;
+                        hash = match.Groups[2].Value;
+                    }
+                    else
+                    {
+                        Match match = Regex.Match(line, "^([a-zA-Z0-9]+)  (.+)$");
+                        hash = match.Groups[1].Value;
+                        filename = match.Groups[2].Value;
+                    }
+
+                    Console.WriteLine(hash + " ==> " + filename);
+
                     line = stream.ReadLine();
                 }
             }
+        }
+
+        /// <summary>
+        /// Check if the line is using a BSD format or not.
+        /// </summary>
+        /// <param name="line">The line to check.</param>
+        /// <returns></returns>
+        private bool IsTag(string line)
+        {
+            if (Regex.Match(line, "^[a-zA-Z0-9]+  ").Success) return false;
+            return true;
         }
 
         /// <summary>
