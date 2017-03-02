@@ -17,7 +17,6 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 
-using md5sum;
 using Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -75,6 +74,7 @@ namespace Shared
         }
         #endregion
 
+        #region Methods Main loopto generate or check the files
         /// <summary>
         /// Perform the checksum.
         /// </summary>
@@ -92,6 +92,7 @@ namespace Shared
             // Get the set of files
             ISet<string> filesToCheck = FileHelper.GetFileSet(files);
 
+            // Generate or check the hashes
             foreach (string filename in filesToCheck)
             {
                 FileInfo file = null;
@@ -148,10 +149,10 @@ namespace Shared
                             using (FileStream streamFile = File.OpenRead(filename))
                             {
                                 string newHash = ToHex(ComputeHash(streamFile), false);
-                                if (newHash == originalHash.ToLower()) Console.WriteLine(filename + ": OK");
+                                if (newHash == originalHash.ToLower()) Console.WriteLine(filename + ": " + GetMessageOK());
                                 else
                                 {
-                                    Console.Error.WriteLine(filename + ": FAILED");
+                                    Console.Error.WriteLine(filename + ": " + GetMessageFAILED());
                                     errors++;
                                 }
                             }
@@ -164,7 +165,7 @@ namespace Shared
                     }
                     else
                     {
-                        ConsoleHelper.LogError(Resources.err_file_dir_not_found, filename);
+                        ConsoleHelper.LogError(GetMessageFileOrDirNotFound(), filename);
                     }
 
                     line = stream.ReadLine();
@@ -177,17 +178,6 @@ namespace Shared
         }
 
         /// <summary>
-        /// Check if the line is using a BSD format or not.
-        /// </summary>
-        /// <param name="line">The line to check.</param>
-        /// <returns></returns>
-        private bool IsTag(string line)
-        {
-            if (Regex.Match(line, "^[a-zA-Z0-9]+  ").Success) return false;
-            return true;
-        }
-
-        /// <summary>
         /// Generate to the standard output the data.
         /// </summary>
         /// <param name="file">The source fill to generate the hash.</param>
@@ -195,7 +185,7 @@ namespace Shared
         {
             if (!file.Exists)
             {
-                ConsoleHelper.LogError(Resources.err_file_dir_not_found, file.FullName);
+                ConsoleHelper.LogError(GetMessageFileOrDirNotFound(), file.FullName);
                 return;
             }
             try
@@ -210,6 +200,49 @@ namespace Shared
             {
                 ConsoleHelper.LogError(file.FullName + ": " + e.Message);
             }
+        }
+        #endregion
+        #region Methods for the messages
+        /// <summary>
+        /// Get the message when a file is OK.
+        /// </summary>
+        /// <returns>The message.</returns>
+        protected abstract string GetMessageOK();
+
+        /// <summary>
+        /// Get the message when a file is FAILED.
+        /// </summary>
+        /// <returns>The message.</returns>
+        protected abstract string GetMessageFAILED();
+
+        /// <summary>
+        /// Get the message when a file or a directory is not found.
+        /// </summary>
+        /// <returns>The message.</returns>
+        protected abstract string GetMessageFileOrDirNotFound();
+
+        /// <summary>
+        /// Get the text for the help.
+        /// </summary>
+        /// <returns>The text.</returns>
+        protected abstract string GetHelp();
+
+        /// <summary>
+        /// Get the message when an option if unknown.
+        /// </summary>
+        /// <returns>The message.</returns>
+        protected abstract string GetUnknownOption();
+        #endregion
+
+        /// <summary>
+        /// Check if the line is using a BSD format or not.
+        /// </summary>
+        /// <param name="line">The line to check.</param>
+        /// <returns></returns>
+        private bool IsTag(string line)
+        {
+            if (Regex.Match(line, "^[a-zA-Z0-9]+  ").Success) return false;
+            return true;
         }
 
         /// <summary>
@@ -243,21 +276,26 @@ namespace Shared
                     if (arg == "--help" || arg == "/?") displayHelp = true;
                     else if (arg == "--check" || arg == "-c") check = true;
                     else if (arg == "--tag") tag = true;
-                    else ConsoleHelper.LogError(Resources.err_option, arg);
+                    else ConsoleHelper.LogError(GetUnknownOption(), arg);
                 }
                 else files.Add(arg);
             }
         }
-
 
         /// <summary>
         /// Show the help.
         /// </summary>
         private void Help()
         {
-            Console.WriteLine(Resources.text_help);
+            Console.WriteLine(GetHelp());
         }
 
+        /// <summary>
+        /// Convert bytes to an hexadecimal value.
+        /// </summary>
+        /// <param name="bytes">The bytes to convert.</param>
+        /// <param name="upperCase">true to convert to upper case.</param>
+        /// <returns>The hexadecimal value.</returns>
         private static string ToHex(byte[] bytes, bool upperCase)
         {
             StringBuilder result = new StringBuilder(bytes.Length * 2);

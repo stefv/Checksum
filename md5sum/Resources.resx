@@ -123,8 +123,14 @@
   <data name="err_option" xml:space="preserve">
     <value>option non reconnue "{0}".</value>
   </data>
+  <data name="text_failed" xml:space="preserve">
+    <value>ERRONE</value>
+  </data>
   <data name="text_help" xml:space="preserve">
     <value>Utilisation: md5sum [OPTION]... [FICHIER]...
 Affiche ou vérifie les sommes de contrôle MD5 (128 bits).</value>
+  </data>
+  <data name="text_ok" xml:space="preserve">
+    <value>VALIDE</value>
   </data>
 </root>

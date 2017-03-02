@@ -20,6 +20,7 @@
 using Shared;
 using System.IO;
 using System.Security.Cryptography;
+using System;
 
 namespace md5sum
 {
@@ -59,6 +60,31 @@ namespace md5sum
                 byte[] hash = md5.ComputeHash(stream);
                 return hash;
             }
+        }
+
+        protected override string GetHelp()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string GetMessageFAILED()
+        {
+            return Resources.text_failed;
+        }
+
+        protected override string GetMessageFileOrDirNotFound()
+        {
+            return Resources.err_file_dir_not_found;
+        }
+
+        protected override string GetMessageOK()
+        {
+            return Resources.text_ok;
+        }
+
+        protected override string GetUnknownOption()
+        {
+            return Resources.err_option;
         }
     }
 }
