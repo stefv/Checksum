@@ -38,13 +38,38 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 [Files]
 Source: "bin\{#Arch}\Release\md5sum.exe"; DestDir: "{app}"
 
+[Registry]
+Root: HKLM; SubKey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment\"; ValueType: string; ValueName: "Path"; ValueData: "{reg:HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\,Path};{app}"
+
 [Tasks]
-Name: "CheckDotNet"; Description: "Check installation .NET (4.0 client)"; Check: InitializeSetup
+Name: "CheckDotNet"; Description: "Check installation .NET (4.5)"; Check: InitializeSetup
 
 [UninstallDelete]
 ;Type: files; Name: "{userappdata}\Roaming\GLow_Screensaver\GLow Screensaver\GLow.sqlite"
 
+
 [Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+var
+  Path, AppDir: string;
+  Index: Integer;
+begin
+  if CurUninstallStep = usUninstall then
+  begin
+    if RegQueryStringValue(HKEY_LOCAL_MACHINE,
+      'SYSTEM\CurrentControlSet\Control\Session Manager\Environment\',
+      'Path', Path) then
+    begin
+      AppDir := ExpandConstant('{app}');
+      Index := Pos(AppDir, Path);
+      Delete(Path, Index-1, Length(AppDir)+1);
+      RegWriteStringValue(HKEY_LOCAL_MACHINE,
+        'SYSTEM\CurrentControlSet\Control\Session Manager\Environment\',
+        'Path', Path);
+    end;
+  end;
+end;
+
 function IsDotNetDetected(version: string; service: cardinal): boolean;
 // Indicates whether the specified version and service pack of the .NET Framework is installed.
 //

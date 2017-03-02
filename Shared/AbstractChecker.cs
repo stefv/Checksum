@@ -61,6 +61,16 @@ namespace Shared
         /// true if the check has errors.
         /// </summary>
         private bool hasCheckingErrors = false;
+
+        /// <summary>
+        /// Don't display the OK lines.
+        /// </summary>
+        private bool quiet = false;
+
+        /// <summary>
+        /// Don't display messages.
+        /// </summary>
+        private bool status = false;
         #endregion
 
         #region Constructors
@@ -149,10 +159,13 @@ namespace Shared
                             using (FileStream streamFile = File.OpenRead(filename))
                             {
                                 string newHash = ToHex(ComputeHash(streamFile), false);
-                                if (newHash == originalHash.ToLower()) Console.WriteLine(filename + ": " + GetMessageOK());
+                                if (newHash == originalHash.ToLower())
+                                {
+                                    if (!quiet) Console.WriteLine(filename + ": " + GetMessageOK());
+                                }
                                 else
                                 {
-                                    Console.Error.WriteLine(filename + ": " + GetMessageFAILED());
+                                    ConsoleHelper.LogError(filename + ": " + GetMessageFAILED());
                                     errors++;
                                 }
                             }
@@ -263,20 +276,30 @@ namespace Shared
             else Console.WriteLine(ToHex(hash, false) + "  " + file);
         }
 
+        #region Method to parse the arguments and display help
         /// <summary>
         /// Parse the arguments.
         /// </summary>
         /// <param name="args">The arguments to parse.</param>
         private void ParseArguments(string[] args)
         {
+            // Search if it's to check
+            foreach (string arg in args)
+            {
+                if (arg == "--check" || arg == "-c") check = true;
+            }
+
+            // Parse the other arguments
             foreach (string arg in args)
             {
                 if (arg.StartsWith("-"))
                 {
                     if (arg == "--help" || arg == "/?") displayHelp = true;
-                    else if (arg == "--check" || arg == "-c") check = true;
-                    else if (arg == "--tag") tag = true;
-                    else ConsoleHelper.LogError(GetUnknownOption(), arg);
+                    else if (arg == "--tag" && check) tag = true;
+                    else if (arg == "--quiet" && check) quiet = true;
+                    else if (arg == "--status" && check) ConsoleHelper.Status = true;
+                    else if (arg == "--check" || arg == "-c") { }
+                    else Console.Error.WriteLine(GetUnknownOption(), arg);
                 }
                 else files.Add(arg);
             }
@@ -289,6 +312,7 @@ namespace Shared
         {
             Console.WriteLine(GetHelp());
         }
+        #endregion
 
         /// <summary>
         /// Convert bytes to an hexadecimal value.
