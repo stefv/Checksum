@@ -64,7 +64,7 @@ namespace md5sum
 
         protected override string GetHelp()
         {
-            throw new NotImplementedException();
+            return Resources.text_help;
         }
 
         protected override string GetMessageFAILED()

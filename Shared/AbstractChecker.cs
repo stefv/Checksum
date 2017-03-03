@@ -161,11 +161,11 @@ namespace Shared
                                 string newHash = ToHex(ComputeHash(streamFile), false);
                                 if (newHash == originalHash.ToLower())
                                 {
-                                    if (!quiet) Console.WriteLine(filename + ": " + GetMessageOK());
+                                    if (!quiet && !ConsoleHelper.Status) Console.WriteLine(filename + ": " + GetMessageOK());
                                 }
                                 else
                                 {
-                                    ConsoleHelper.LogError(filename + ": " + GetMessageFAILED());
+                                    if (!ConsoleHelper.Status) ConsoleHelper.LogError(filename + ": " + GetMessageFAILED());
                                     errors++;
                                 }
                             }
@@ -173,12 +173,14 @@ namespace Shared
                         catch (Exception e)
                         {
                             ConsoleHelper.LogError(filename + ": " + e.Message);
+                            errors++;
                         }
 
                     }
                     else
                     {
                         ConsoleHelper.LogError(GetMessageFileOrDirNotFound(), filename);
+                        errors++;
                     }
 
                     line = stream.ReadLine();
