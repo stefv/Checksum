@@ -64,7 +64,7 @@ namespace md5sum
 
         protected override string GetHelp()
         {
-            throw new NotImplementedException();
+            return Resources.text_help;
         }
 
         protected override string GetMessageFAILED()
@@ -77,9 +77,19 @@ namespace md5sum
             return Resources.err_file_dir_not_found;
         }
 
+        protected override string GetMessageMultiFilesError()
+        {
+            return Resources.text_multi_files_checksum_error;
+        }
+
         protected override string GetMessageOK()
         {
             return Resources.text_ok;
+        }
+
+        protected override string GetMessageOneFileError()
+        {
+            return Resources.text_one_file_checksum_error;
         }
 
         protected override string GetUnknownOption()

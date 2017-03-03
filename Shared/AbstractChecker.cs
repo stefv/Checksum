@@ -185,8 +185,8 @@ namespace Shared
                 }
             }
 
-            if (errors == 1) ConsoleHelper.LogError(errors + " somme de contrôle ne correspond pas.");
-            else if (errors > 1) ConsoleHelper.LogError(errors + " sommes de contrôle ne correspondent pas.");
+            if (errors == 1) ConsoleHelper.LogError(GetMessageOneFileError(), errors);
+            else if (errors > 1) ConsoleHelper.LogError(GetMessageMultiFilesError(), errors);
             if (!hasCheckingErrors && errors > 0) hasCheckingErrors = true;
         }
 
@@ -245,6 +245,55 @@ namespace Shared
         /// </summary>
         /// <returns>The message.</returns>
         protected abstract string GetUnknownOption();
+
+        /// <summary>
+        /// Get the message when one error has been found on a sum.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetMessageOneFileError();
+
+        /// <summary>
+        /// Get the message when more than one error has been found on sums.
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetMessageMultiFilesError();
+        #endregion
+        #region Method to parse the arguments and display help
+        /// <summary>
+        /// Parse the arguments.
+        /// </summary>
+        /// <param name="args">The arguments to parse.</param>
+        private void ParseArguments(string[] args)
+        {
+            // Search if it's to check
+            foreach (string arg in args)
+            {
+                if (arg == "--check" || arg == "-c") check = true;
+            }
+
+            // Parse the other arguments
+            foreach (string arg in args)
+            {
+                if (arg.StartsWith("-") || arg.StartsWith("/"))
+                {
+                    if (arg == "--help" || arg == "/?") displayHelp = true;
+                    else if (arg == "--tag" && check) tag = true;
+                    else if (arg == "--quiet" && check) quiet = true;
+                    else if (arg == "--status" && check) ConsoleHelper.Status = true;
+                    else if (arg == "--check" || arg == "-c") { }
+                    else Console.Error.WriteLine(GetUnknownOption(), arg);
+                }
+                else files.Add(arg);
+            }
+        }
+
+        /// <summary>
+        /// Show the help.
+        /// </summary>
+        private void Help()
+        {
+            Console.WriteLine(GetHelp());
+        }
         #endregion
 
         /// <summary>
@@ -276,43 +325,6 @@ namespace Shared
             else Console.WriteLine(ToHex(hash, false) + "  " + file);
         }
 
-        #region Method to parse the arguments and display help
-        /// <summary>
-        /// Parse the arguments.
-        /// </summary>
-        /// <param name="args">The arguments to parse.</param>
-        private void ParseArguments(string[] args)
-        {
-            // Search if it's to check
-            foreach (string arg in args)
-            {
-                if (arg == "--check" || arg == "-c") check = true;
-            }
-
-            // Parse the other arguments
-            foreach (string arg in args)
-            {
-                if (arg.StartsWith("-"))
-                {
-                    if (arg == "--help" || arg == "/?") displayHelp = true;
-                    else if (arg == "--tag" && check) tag = true;
-                    else if (arg == "--quiet" && check) quiet = true;
-                    else if (arg == "--status" && check) ConsoleHelper.Status = true;
-                    else if (arg == "--check" || arg == "-c") { }
-                    else Console.Error.WriteLine(GetUnknownOption(), arg);
-                }
-                else files.Add(arg);
-            }
-        }
-
-        /// <summary>
-        /// Show the help.
-        /// </summary>
-        private void Help()
-        {
-            Console.WriteLine(GetHelp());
-        }
-        #endregion
 
         /// <summary>
         /// Convert bytes to an hexadecimal value.

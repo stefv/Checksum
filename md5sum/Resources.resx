@@ -128,9 +128,25 @@
   </data>
   <data name="text_help" xml:space="preserve">
     <value>Utilisation: md5sum [OPTION]... [FICHIER]...
-Affiche ou vérifie les sommes de contrôle MD5 (128 bits).</value>
+Affiche ou vérifie les sommes de contrôle MD5 d'un ou plusieurs fichiers.
+Si aucun fichier n'est indiqué, l'entrée standard est utilisée.
+
+    -c, --check    lit les sommes MD5 à partir du ou des fichiers indiqués
+        --tag      crée une somme de contrôle de type BSD
+    /?, --help     affiche cette aide
+        --version  affiche la version de l'outil
+
+Les options ci-dessous ne sont utilisées que lors d'une vérification:
+        --quiet    ne pas afficher de OK lors des validations réussies
+        --status   n'affiche rien. Ne retourne qu'un code d'état</value>
+  </data>
+  <data name="text_multi_files_checksum_error" xml:space="preserve">
+    <value>{0} sommes de contrôle ne correspondent pas.</value>
   </data>
   <data name="text_ok" xml:space="preserve">
     <value>VALIDE</value>
+  </data>
+  <data name="text_one_file_checksum_error" xml:space="preserve">
+    <value>{0} somme de contrôle ne correspond pas.</value>
   </data>
 </root>
