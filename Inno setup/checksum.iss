@@ -37,6 +37,7 @@ Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 
 [Files]
 Source: "bin\{#Arch}\Release\md5sum.exe"; DestDir: "{app}"
+Source: "bin\{#Arch}\Release\fr-FR\md5sum.resources.dll"; DestDir: "{app}\fr-FR\"
 
 [Registry]
 Root: HKLM; SubKey: "SYSTEM\CurrentControlSet\Control\Session Manager\Environment\"; ValueType: string; ValueName: "Path"; ValueData: "{reg:HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\,Path};{app}"

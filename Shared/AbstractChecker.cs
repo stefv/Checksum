@@ -20,7 +20,9 @@
 using Shared.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -41,6 +43,11 @@ namespace Shared
         /// True to display the help.
         /// </summary>
         private bool displayHelp = false;
+
+        /// <summary>
+        /// True to display the version.
+        /// </summary>
+        private bool displayVersion = false;
 
         /// <summary>
         /// Check the files with the sums.
@@ -96,6 +103,11 @@ namespace Shared
             if (displayHelp)
             {
                 Help();
+                Environment.Exit(1);
+            }
+            if (displayVersion)
+            {
+                Version();
                 Environment.Exit(1);
             }
 
@@ -279,6 +291,7 @@ namespace Shared
                 if (arg.StartsWith("-") || arg.StartsWith("/"))
                 {
                     if (arg == "--help" || arg == "/?") displayHelp = true;
+                    else if (arg == "--version") displayVersion = true;
                     else if (arg == "--tag" && check) tag = true;
                     else if (arg == "--quiet" && check) quiet = true;
                     else if (arg == "--status" && check) ConsoleHelper.Status = true;
@@ -295,6 +308,18 @@ namespace Shared
         private void Help()
         {
             Console.WriteLine(GetHelp());
+        }
+        #endregion
+        #region Method to display the version
+        /// <summary>
+        /// Show the version.
+        /// </summary>
+        private void Version()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+            Console.WriteLine("Version " + version);
         }
         #endregion
 

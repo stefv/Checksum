@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="err_file_dir_not_found" xml:space="preserve">
-    <value>{0}: no such file or directory with this name.</value>
+    <value>{0}: aucun fichier ou répertoire avec ce nom.</value>
   </data>
   <data name="err_option" xml:space="preserve">
-    <value>unknown option "{0}".</value>
+    <value>option non reconnue "{0}".</value>
   </data>
   <data name="text_failed" xml:space="preserve">
-    <value>FAILED</value>
+    <value>ERRONE</value>
   </data>
   <data name="text_help" xml:space="preserve">
     <value>Utilisation: md5sum [OPTION]... [FICHIER]...
@@ -144,7 +144,7 @@ Les options ci-dessous ne sont utilisées que lors d'une vérification:
     <value>{0} sommes de contrôle ne correspondent pas.</value>
   </data>
   <data name="text_ok" xml:space="preserve">
-    <value>OK</value>
+    <value>VALIDE</value>
   </data>
   <data name="text_one_file_checksum_error" xml:space="preserve">
     <value>{0} somme de contrôle ne correspond pas.</value>
