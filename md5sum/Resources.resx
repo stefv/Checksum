@@ -127,26 +127,26 @@
     <value>FAILED</value>
   </data>
   <data name="text_help" xml:space="preserve">
-    <value>Utilisation: md5sum [OPTION]... [FICHIER]...
-Affiche ou vérifie les sommes de contrôle MD5 d'un ou plusieurs fichiers.
-Si aucun fichier n'est indiqué, l'entrée standard est utilisée.
+    <value>Usage: md5sum [OPTION]... [FILE]...
+Show or check the MD5 checksums of one or more files.
+If not file is given, le standard input is used.
 
-    -c, --check    lit les sommes MD5 à partir du ou des fichiers indiqués
-        --tag      crée une somme de contrôle de type BSD
-    /?, --help     affiche cette aide
-        --version  affiche la version de l'outil
+    -c, --check    read the MD5 sums from the given file or files
+        --tag      create a BSD type checksum
+    /?, --help     display this help
+        --version  display the version of this tool
 
-Les options ci-dessous ne sont utilisées que lors d'une vérification:
-        --quiet    ne pas afficher de OK lors des validations réussies
-        --status   n'affiche rien. Ne retourne qu'un code d'état</value>
+These options under are used for the checking:
+        --quiet    do not display OK when the validation if OK
+        --status   do not display text. Just return the status code</value>
   </data>
   <data name="text_multi_files_checksum_error" xml:space="preserve">
-    <value>{0} sommes de contrôle ne correspondent pas.</value>
+    <value>{0} checkums do not match.</value>
   </data>
   <data name="text_ok" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="text_one_file_checksum_error" xml:space="preserve">
-    <value>{0} somme de contrôle ne correspond pas.</value>
+    <value>{0} checkum do not match.</value>
   </data>
 </root>

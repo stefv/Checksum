@@ -2,7 +2,6 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Checksum"
-#define MyAppVersion "1.0"
 #define MyAppPublisher "Stéphane VANPOPERYNGHE"
 #define MyAppURL "https://github.com/stefv/Checksum"
 
@@ -12,7 +11,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{8254DB92-7221-49A2-8E2A-54233C72E9B6}}
 AppName={#MyAppName}
-AppVersion={#MyAppVersion}
+AppVersion={#Version}
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -23,7 +22,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=..\LICENSE
 OutputDir=.\
-OutputBaseFilename=Checksum Setup-{#MyAppVersion}.{#Arch}
+OutputBaseFilename=Checksum Setup-{#Version}.{#Arch}
 SetupIconFile=.\checksum.ico
 Compression=lzma
 SolidCompression=yes
